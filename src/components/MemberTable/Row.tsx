@@ -15,12 +15,14 @@ const Row: FC<RowProps> = ({ name, dob, gender }) => {
     </span>
   )
 
+  const dateString: string = dob.toISOString().slice(0, 10);
+
   return (
     <tr>
       <td>{ nameText } </td>
       <td>
         <span className="text-gray-900 font-medium">
-          { dob.toDateString() }
+          { dateString }
         </span>
       </td>
       <td>

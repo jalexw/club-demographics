@@ -1,22 +1,32 @@
-import { useState } from 'react'
-
+import { useMemo, useState } from 'react'
 
 import type { NextPage } from 'next'
 import Head from 'next/head'
 // import Image from 'next/image'
 
+// Types
+import { encodeRow, PersonalDetails } from '@/member'
+
 // Custom Components
 import DetailsDropdown from '@/components/DetailsDropdown'
 import MemberTable from '@/components/MemberTable'
-
-// Types
-import type { PersonalDetails } from '@/member'
 import UploadCSVForm from '@/components/UploadCSVForm'
+
 
 const Home: NextPage = () => {
   const [members, setMembers] = useState<PersonalDetails[]>([])
   const [waitlist, setWaitlist] = useState<PersonalDetails[]>([])
 
+  // Combine each member's D.O.B and Gender into a HTTP query string
+  const stringEncodedMembers = useMemo(() => {
+    if (!members || members.length === 0) return "";
+    // Encode each member as a string
+    const encodedMembers: (`${string}-${string}`)[] = members.map(encodeRow);
+    const queryEncoded: string = encodedMembers.map(
+      (encodedMember) => `row[]=${encodedMember}`
+    ).join("&");
+    return queryEncoded
+  }, [members])
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
@@ -54,6 +64,21 @@ const Home: NextPage = () => {
             )
           }
         </DetailsDropdown>
+
+        {
+          members.length > 0 ? (
+            <DetailsDropdown
+              title="Current Club Demographic"
+            >
+              <img
+                src={`/api/population_pyramid?title=${"Current Club Demographic"}&${stringEncodedMembers}`}
+                alt="Current Club Demographic Population Pyramid"
+                width={1920}
+                height={1080}
+              />
+            </DetailsDropdown>
+          ) : (<></>)
+        }
       </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">

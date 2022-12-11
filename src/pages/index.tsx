@@ -4,28 +4,26 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 // import Image from 'next/image'
 
-// Types
-import { encodeRow, PersonalDetails } from '@/member'
+// Member Personal Details
+import { encodeRows, PersonalDetails } from '@/member'
 
 // Custom Components
 import DetailsDropdown from '@/components/DetailsDropdown'
 import MemberTable from '@/components/MemberTable'
 import UploadCSVForm from '@/components/UploadCSVForm'
+import SimulationSettingsForm, { SimulationResults } from '@/components/Simulator'
 
 const Home: NextPage = () => {
   // Data from user's CSV files
   const [members, setMembers] = useState<PersonalDetails[]>([])
   const [waitlist, setWaitlist] = useState<PersonalDetails[]>([])
 
+  // Simulation Results
+  const [simulations, setSimulations] = useState<SimulationResults>([])
+
   // Combine each member's D.O.B and Gender into a HTTP query string
   const stringEncodedMembers = useMemo(() => {
-    if (!members || members.length === 0) return "";
-    // Encode each member as a string
-    const encodedMembers: (`${string}-${string}`)[] = members.map(encodeRow);
-    const queryEncoded: string = encodedMembers.map(
-      (encodedMember) => `row[]=${encodedMember}`
-    ).join("&");
-    return queryEncoded
+    return encodeRows(members)
   }, [members])
 
   return (
@@ -97,7 +95,7 @@ const Home: NextPage = () => {
         </DetailsDropdown>
 
         <DetailsDropdown
-          title="Club Members List"
+          title="Members List"
         >
           {
             members.length === 0 ? (
@@ -110,7 +108,7 @@ const Home: NextPage = () => {
         </DetailsDropdown>
 
         <DetailsDropdown
-          title="Membership Waitlist"
+          title="Waitlist"
         >
           {
             waitlist.length === 0 ? (
@@ -124,7 +122,7 @@ const Home: NextPage = () => {
         {
           members.length > 0 ? (
             <DetailsDropdown
-              title="Current Club Demographic"
+              title="Present Population Pyramid"
             >
               <img
                 src={`/api/population_pyramid?title=${"Current Club Demographic"}&${stringEncodedMembers}`}
@@ -132,6 +130,49 @@ const Home: NextPage = () => {
                 width={1920}
                 height={1080}
               />
+            </DetailsDropdown>
+          ) : (<></>)
+        }
+
+        {
+          (members.length > 0 && waitlist.length > 0) ? (
+            <DetailsDropdown
+              title="Simulation Settings"
+            >
+              <SimulationSettingsForm
+                members={members}
+                waitlist={waitlist}
+                setSimulationResults={setSimulations}
+              />
+            </DetailsDropdown>
+          ) : (<></>)
+        }
+
+        {
+          (members.length > 0 && waitlist.length > 0 && simulations.length > 0) ? (
+            <DetailsDropdown
+              title="Simulation Results"
+            >
+              <div className="flex w-full flex-col justify-start items-center">
+                {
+                  simulations.map((simulation, index) => {
+                    const encodedMembers = encodeRows(simulation.members)
+                    return (
+                      <img
+                        key={index}
+                        src={
+                          `/api/population_pyramid?title=${
+                            `Simulated Club Demographic (Year ${simulation.year})`
+                          }&${encodedMembers}`
+                        }
+                        alt="Current Club Demographic Population Pyramid"
+                        width={1920}
+                        height={1080}
+                      />
+                    )
+                  })
+                }
+              </div>
             </DetailsDropdown>
           ) : (<></>)
         }

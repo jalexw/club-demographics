@@ -30,6 +30,16 @@ export function encodeRow(row: PersonalDetails): `${string}-${string}` {
   return `${dateString}-${genderShortString}`
 }
 
+export function encodeRows(members: readonly PersonalDetails[]): string {
+  if (!members || members.length === 0) return "";
+  // Encode each member as a string
+  const encodedMembers: (`${string}-${string}`)[] = members.map(encodeRow);
+  const queryEncoded: string = encodedMembers.map(
+    (encodedMember) => `row[]=${encodedMember}`
+  ).join("&");
+  return queryEncoded
+}
+
 export function decodeRow(row: string): AnonymizedMember {
   if (row.length !== 12) {
     throw new Error("Invalid row format: " + row);

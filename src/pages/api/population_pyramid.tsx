@@ -24,6 +24,10 @@ export default function handler(
   } else {
     encodedRows = Array.isArray(row) ? row : [row];
   }
+  if (encodedRows.length === 0) {
+    throw new Error("No demographic data provided! Pass in at least one row=<encoded> parameter.")
+  }
+
   // The data of each encoded row should be exactly 12 characters
   if (encodedRows.some((encodedRow) => encodedRow.length !== 12)) {
     // TODO: Handle this error
@@ -37,6 +41,7 @@ export default function handler(
   const bucketedData = new DemographicBuckets(rows);
   const { Male, Female, NonBinary }: GenderBuckets = bucketedData.buckets;
   const [n_buckets, bucket_width] = bucketedData.bucketDetails;
+  const genderStats = bucketedData.genderStats;
 
   const largestBucket: number = Math.max(...Male, ...Female);
 
@@ -180,8 +185,19 @@ export default function handler(
             { femaleBuckets }
           </div>
         </div>
+        <p tw="absolute left-0 bottom-0 m-4 text-lg text-gray-400">
+          {
+            `${
+              rows.length
+            } Members: ${
+              Math.round((genderStats.Male / rows.length) * 100)
+            }% Male, ${
+              Math.round((genderStats.Female / rows.length) * 100)
+            }% Female`
+          }
+        </p>
         <p tw="absolute right-0 bottom-0 m-4 text-lg text-gray-400">
-          # Non-Binary Members: { NonBinary.reduce((total, num) => total + num, 0) }
+          # Non-Binary Members: { genderStats.NonBinary }
         </p>
       </div>
     ),
@@ -199,5 +215,4 @@ export const config = {
       maxAgeSeconds: 0, // Don't cache
     }
   }
-  
 }

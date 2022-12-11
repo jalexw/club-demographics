@@ -190,9 +190,9 @@ export default function handler(
             `${
               rows.length
             } Members: ${
-              Math.round((genderStats.Male / rows.length) * 100)
+              Math.round((genderStats.Male / rows.length) * 100).toFixed(2)
             }% Male, ${
-              Math.round((genderStats.Female / rows.length) * 100)
+              Math.round((genderStats.Female / rows.length) * 100).toFixed(2)
             }% Female`
           }
         </p>

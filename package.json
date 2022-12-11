@@ -1,7 +1,7 @@
 {
   "name": "club-demographics",
   "version": "0.0.1",
-  "description": "Create population pyramids based on membership lists and simulation results",
+  "description": "Create population pyramids based on membership lists and simulation results for a club",
   "repository": "https://github.com/jalexw/club-demographics.git",
   "scripts": {
     "dev": "next dev",

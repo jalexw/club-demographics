@@ -180,12 +180,17 @@ const Home: NextPage = () => {
 
       <footer className="flex h-24 w-full items-center justify-center border-t">
         <p>
-          Built by J. Alex Whitman for{' '}
           <a
-            href="https://ashburngolfclub.com/"
+            href="https://github.com/jalexw/club-demographics"
             className="text-blue-600 hover:text-blue-500 underline"
           >
-            Ashburn Golf Club
+            An open source project 
+          </a>{' '} by {' '}
+          <a
+            href="https://www.linkedin.com/in/jalexwhitman/"
+            className="text-blue-600 hover:text-blue-500 underline"
+          >
+            J. Alex Whitman
           </a>
         </p>
       </footer>

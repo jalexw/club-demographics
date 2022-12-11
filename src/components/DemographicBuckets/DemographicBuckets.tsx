@@ -8,6 +8,11 @@ export type GenderBuckets = {
   [key in Gender]: AgeBuckets;
 }
 
+// Number of females, males, and nonbinary
+export type GenderStats = {
+  [key in Gender]: number;
+}
+
 // This class will take in a list of anonymized member details (gender/dob) and group them into buckets
 export default class DemographicBuckets {
   // The date to use as the reference point for bucketing (calculate age with)
@@ -21,6 +26,9 @@ export default class DemographicBuckets {
   private _maleRows: AnonymizedMember[];
   private _femaleRows: AnonymizedMember[];
   private _nonBinaryRows: AnonymizedMember[];
+
+  // Stats on # of members of each gender
+  private _genderStats: GenderStats;
 
   // Final buckets object
   private _buckets: GenderBuckets;
@@ -41,6 +49,12 @@ export default class DemographicBuckets {
     this._maleRows = rows.filter(row => row.gender === "Male" as Gender)
     this._femaleRows = rows.filter(row => row.gender === "Female" as Gender)
     this._nonBinaryRows = rows.filter(row => row.gender === "NonBinary" as Gender)
+    // Calculate stats
+    this._genderStats = {
+      Male: this._maleRows.length,
+      Female: this._femaleRows.length,
+      NonBinary: this._nonBinaryRows.length,
+    }
     // Buckets split by age and gender
     this._buckets = {
       Male: this.splitRowsByAge(this._maleRows),
@@ -90,5 +104,9 @@ export default class DemographicBuckets {
 
   public get bucketDetails(): readonly [number, number] {
     return [this.n_buckets, this.bucket_width];
+  }
+
+  public get genderStats(): GenderStats {
+    return this._genderStats;
   }
 }

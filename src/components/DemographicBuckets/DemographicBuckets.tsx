@@ -10,14 +10,20 @@ export type GenderBuckets = {
 
 // This class will take in a list of anonymized member details (gender/dob) and group them into buckets
 export default class DemographicBuckets {
-  // All members to be bucketed
-  private rows: AnonymizedMember[];
   // The date to use as the reference point for bucketing (calculate age with)
   private date: Date;
   // The number of buckets to use
   private n_buckets: number;
   // The width of each bucket in years
   private bucket_width: number;
+
+  // Rows split by gender
+  private _maleRows: AnonymizedMember[];
+  private _femaleRows: AnonymizedMember[];
+  private _nonBinaryRows: AnonymizedMember[];
+
+  // Final buckets object
+  private _buckets: GenderBuckets;
 
   constructor(
     rows: AnonymizedMember[],
@@ -26,10 +32,21 @@ export default class DemographicBuckets {
     // Default to 5 years per bucket
     bucket_width: number = 5,
   ) {
-    this.rows = rows;
+    // Date to use as reference point when calculating age based on D.O.B.
     this.date = date;
+    // Bucket Settings
     this.n_buckets = n_buckets;
     this.bucket_width = bucket_width;
+    // Split rows
+    this._maleRows = rows.filter(row => row.gender === "Male" as Gender)
+    this._femaleRows = rows.filter(row => row.gender === "Female" as Gender)
+    this._nonBinaryRows = rows.filter(row => row.gender === "NonBinary" as Gender)
+    // Buckets split by age and gender
+    this._buckets = {
+      Male: this.splitRowsByAge(this._maleRows),
+      Female: this.splitRowsByAge(this._femaleRows),
+      NonBinary: this.splitRowsByAge(this._nonBinaryRows),
+    }
   }
 
   private getMemberAge(member: AnonymizedMember): number {
@@ -68,18 +85,7 @@ export default class DemographicBuckets {
   }
 
   public get buckets(): GenderBuckets {
-    // Split rows by gender
-    const maleRows = this.rows.filter(row => row.gender === "Male" as Gender)
-    const femaleRows = this.rows.filter(row => row.gender === "Female" as Gender)
-    const nonBinaryRows = this.rows.filter(row => row.gender === "NonBinary" as Gender)
-
-    // Split rows by age
-    const buckets: GenderBuckets = {
-      Male: this.splitRowsByAge(maleRows),
-      Female: this.splitRowsByAge(femaleRows),
-      NonBinary: this.splitRowsByAge(nonBinaryRows),
-    }
-    return buckets;
+    return this._buckets;
   }
 
   public get bucketDetails(): readonly [number, number] {

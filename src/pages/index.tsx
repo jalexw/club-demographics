@@ -13,6 +13,7 @@ import MemberTable from '@/components/MemberTable'
 import UploadCSVForm from '@/components/UploadCSVForm'
 
 const Home: NextPage = () => {
+  // Data from user's CSV files
   const [members, setMembers] = useState<PersonalDetails[]>([])
   const [waitlist, setWaitlist] = useState<PersonalDetails[]>([])
 
@@ -90,6 +91,9 @@ const Home: NextPage = () => {
           <code className="bg-gray-200">Jane Doe,1999-12-31,Female</code><br/>
           <code className="bg-gray-200">Dylan Hernandez,1980-07-07,Male</code><br/>
           <code className="bg-gray-200">...</code>
+          <p className="font-bold mt-8">
+            None of your data will be stored or shared with anyone.
+          </p>
         </DetailsDropdown>
 
         <DetailsDropdown

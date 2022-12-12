@@ -34,7 +34,7 @@ export const samplingStrategies: SampleStrategy[] = [
     }
   }, {
     id: "in-order",
-    label: "In Typical Order",
+    label: "Descending Priority",
     sample: (waitlist, sampleSize) => {
       // Take 'sampleSize' members out of the waitlist in the order they joined
       const sample: PersonalDetails[] = [];

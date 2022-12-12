@@ -19,10 +19,10 @@ This project was created to allow a golf club to simulate how different waitlist
 
 ## Developers - How to code your own waitlist sampling methods as TypeScript functions
 1. Clone this repository: `git clone https://github.com/jalexw/club-demographics.git`
-2. Make it your active directory: `cd club-demographics`
+2. Make the cloned repository your active directory: `cd club-demographics`
 3. Use [Yarn Package Manager](https://yarnpkg.com) to install this project's dependencies: `yarn`
 4. Start a local Next.js development environment: `yarn dev`
 5. Edit the sampling strategies available: `src/components/Simulator/sampling.ts`
 
 ## Contributing
-Create a new sampling method or add a new feature and want to share? Pull requests welcome!
+Did you create a new sampling method or add a new feature? Pull requests welcome!

@@ -2,7 +2,7 @@
 
 ## Project Background
 
-This project was created to allow a golf club to simulate how different waitlist sampling strategies/algorithms would affect the gender and age distribution of their club. For many years, women were not allowed in the club, or not allowed to play on certain days. Correspondingly, the proportion of women in the club is currently not representative of the proportion of women who golf in the country. This tool was created to help explore how the club might change how the waitlist works: letting a higher proportion of women in to correct the past's systemic bias, while still getting the people who have been waiting the longest to get in.
+This project was created to allow a golf club to simulate how different waitlist sampling strategies/algorithms would affect the gender and age distribution of their club. For many years, women were not allowed in the club, or not allowed to play on certain days. Correspondingly, the proportion of women in the club is currently not representative of the proportion of women who golf in the country. This tool was created to help explore how the club might change how the waitlist works: letting a higher proportion of women in to correct the past's systemic bias, while also accepting the people who have been waiting the longest to get in.
 
 ## So how do I use it?
 1. Upload spreadsheets containing your membership list and waitlist

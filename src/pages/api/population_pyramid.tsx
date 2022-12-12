@@ -17,21 +17,31 @@ export default function handler(
   // The encoded data is a string of the form <dob>-<gender>
   // The dob is a string of the form YYYY-MM-DD
   // The gender is a single letter, either M(ale), F(emale), or N(on-binary)
-  const row: string[] = searchParams.getAll("row[]");
+  
   let encodedRows: string[];
-  if (!row) {
-    encodedRows = []
-  } else {
-    encodedRows = Array.isArray(row) ? row : [row];
-  }
-  if (encodedRows.length === 0) {
-    throw new Error("No demographic data provided! Pass in at least one row=<encoded> parameter.")
-  }
-
-  // The data of each encoded row should be exactly 12 characters
-  if (encodedRows.some((encodedRow) => encodedRow.length !== 12)) {
-    // TODO: Handle this error
-    throw new Error("Row improperly encoded with anonymized member data");
+  try {
+    const row: string[] = searchParams.getAll("row[]");
+    if (!row) {
+      throw new Error("No demographic data provided! Pass in at least one row=<encoded> query parameter.")
+    } else {
+      encodedRows = Array.isArray(row) ? row : [row];
+    }
+    if (!encodedRows || encodedRows.length === 0) {
+      throw new Error("No demographic data provided! Pass in at least one row=<encoded> parameter.")
+    }
+    // The data of each encoded row should be exactly 12 characters
+    if (encodedRows.some((encodedRow) => encodedRow.length !== 12)) {
+      // TODO: Handle this error
+      throw new Error("Row improperly encoded with anonymized member data");
+    }
+  } catch (error) {
+    return new ImageResponse(
+      <div
+        tw="bg-white w-full h-full flex flex-col items-center justify-center"
+      >
+        <p tw="text-2xl text-center">{`Input Error: ${ error }`}</p>
+      </div>
+    )
   }
 
   // Convert strings into AnonymizedMember objects

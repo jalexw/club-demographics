@@ -125,7 +125,7 @@ const Home: NextPage = () => {
               title="Present Population Pyramid"
             >
               <img
-                src={`/api/population_pyramid?title=${"Current Club Demographic"}&${stringEncodedMembers}`}
+                src={`/api/population_pyramid?title=${"Current Club Demographics"}&${stringEncodedMembers}`}
                 alt="Current Club Demographic Population Pyramid"
                 width={1920}
                 height={1080}

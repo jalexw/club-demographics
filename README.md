@@ -17,11 +17,12 @@ This project was created to allow a golf club to simulate how different waitlist
 ## Layperson Usage
 [Visit the version already deployed on Vercel](https://club-demographics.vercel.app/) to generate population pyramids or use existing sampling strategies without writing any code.
 
-## Developers - How to code your own sampling methods as TypeScript functions
-
+## Developers - How to code your own waitlist sampling methods as TypeScript functions
 1. Clone this repository: `git clone https://github.com/jalexw/club-demographics.git`
 2. Make it your active directory: `cd club-demographics`
 3. Use [Yarn Package Manager](https://yarnpkg.com) to install this project's dependencies: `yarn`
 4. Start a local Next.js development environment: `yarn dev`
-5. Edit the sampling strategies available in `src/components/Simulator/sampling.ts`
+5. Edit the sampling strategies available: `src/components/Simulator/sampling.ts`
 
+## Contributing
+Create a new sampling method or add a new feature and want to share? Pull requests welcome!
